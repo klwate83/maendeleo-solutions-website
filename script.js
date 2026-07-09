@@ -206,24 +206,6 @@ maendeleoBotForm?.addEventListener("submit", (event) => {
 });
 
 /* ===========================
-   SERVICES CAROUSEL
-=========================== */
-
-const servicesCarousel = document.getElementById("servicesCarousel");
-const servicesPrev = document.getElementById("servicesPrev");
-const servicesNext = document.getElementById("servicesNext");
-
-if (servicesCarousel && servicesPrev && servicesNext) {
-  servicesNext.addEventListener("click", () => {
-    servicesCarousel.scrollBy({ left: 370, behavior: "smooth" });
-  });
-
-  servicesPrev.addEventListener("click", () => {
-    servicesCarousel.scrollBy({ left: -370, behavior: "smooth" });
-  });
-}
-
-/* ===========================
    PROJECTS PAGE DEMO BOT
 =========================== */
 
@@ -309,46 +291,164 @@ window.addEventListener("scroll", () => {
   });
 });
 
+
+
 /* ===========================
-   ARCHITECTURE CAROUSEL
+   MOBILE NAVIGATION
 =========================== */
 
-const architectureCarousel = document.getElementById("architectureCarousel");
-const architecturePrev = document.getElementById("architecturePrev");
-const architectureNext = document.getElementById("architectureNext");
+const mobileNavToggle = document.getElementById("mobileNavToggle");
+const primaryNav = document.getElementById("primaryNav");
 
-if (architectureCarousel && architecturePrev && architectureNext) {
-  architectureNext.addEventListener("click", () => {
-    architectureCarousel.scrollBy({
-      left: 390,
+mobileNavToggle?.addEventListener("click", () => {
+  const isOpen = primaryNav?.classList.toggle("open");
+  mobileNavToggle.classList.toggle("open", Boolean(isOpen));
+  mobileNavToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+});
+
+primaryNav?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    primaryNav.classList.remove("open");
+    mobileNavToggle?.classList.remove("open");
+    mobileNavToggle?.setAttribute("aria-expanded", "false");
+  });
+});
+
+/* ===========================
+   INFINITE CAROUSELS
+=========================== */
+
+function setupInfiniteCarousel({ carouselId, prevId, nextId, cardSelector, interval = 3600 }) {
+  const carousel = document.getElementById(carouselId);
+  const prevButton = document.getElementById(prevId);
+  const nextButton = document.getElementById(nextId);
+
+  if (!carousel || carousel.querySelectorAll(cardSelector).length < 2) return;
+
+  let timer = null;
+  let isAnimating = false;
+  let isVisible = false;
+
+  function getGap() {
+    const styles = window.getComputedStyle(carousel);
+    return parseInt(styles.columnGap || styles.gap || "28", 10) || 28;
+  }
+
+  function getStepAmount() {
+    const firstCard = carousel.querySelector(cardSelector);
+    return firstCard ? firstCard.offsetWidth + getGap() : 370;
+  }
+
+  function moveNext() {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    const amount = getStepAmount();
+
+    carousel.scrollBy({
+      left: amount,
       behavior: "smooth"
     });
-  });
 
-  architecturePrev.addEventListener("click", () => {
-    architectureCarousel.scrollBy({
-      left: -390,
-      behavior: "smooth"
-    });
-  });
+    window.setTimeout(() => {
+      const firstCard = carousel.querySelector(cardSelector);
 
-  setInterval(() => {
-    const maxScroll =
-      architectureCarousel.scrollWidth - architectureCarousel.clientWidth;
+      if (firstCard) {
+        carousel.appendChild(firstCard);
+        carousel.scrollLeft = Math.max(0, carousel.scrollLeft - amount);
+      }
 
-    if (architectureCarousel.scrollLeft >= maxScroll - 10) {
-      architectureCarousel.scrollTo({
-        left: 0,
-        behavior: "smooth"
-      });
-    } else {
-      architectureCarousel.scrollBy({
-        left: 390,
-        behavior: "smooth"
-      });
+      isAnimating = false;
+    }, 650);
+  }
+
+  function movePrev() {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    const cards = carousel.querySelectorAll(cardSelector);
+    const lastCard = cards[cards.length - 1];
+    const amount = getStepAmount();
+
+    if (lastCard) {
+      carousel.insertBefore(lastCard, carousel.firstElementChild);
+      carousel.scrollLeft += amount;
     }
-  }, 4500);
+
+    carousel.scrollBy({
+      left: -amount,
+      behavior: "smooth"
+    });
+
+    window.setTimeout(() => {
+      isAnimating = false;
+    }, 650);
+  }
+
+  function startAutoRotate() {
+    if (timer || !isVisible) return;
+    timer = window.setInterval(moveNext, interval);
+  }
+
+  function stopAutoRotate() {
+    if (!timer) return;
+    window.clearInterval(timer);
+    timer = null;
+  }
+
+  function resetAutoRotate() {
+    stopAutoRotate();
+    startAutoRotate();
+  }
+
+  nextButton?.addEventListener("click", () => {
+    moveNext();
+    resetAutoRotate();
+  });
+
+  prevButton?.addEventListener("click", () => {
+    movePrev();
+    resetAutoRotate();
+  });
+
+  carousel.addEventListener("mouseenter", stopAutoRotate);
+  carousel.addEventListener("mouseleave", startAutoRotate);
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isVisible = entry.isIntersecting;
+
+        if (isVisible) {
+          startAutoRotate();
+        } else {
+          stopAutoRotate();
+        }
+      });
+    }, { threshold: 0.25 });
+
+    observer.observe(carousel);
+  } else {
+    isVisible = true;
+    startAutoRotate();
+  }
 }
+
+setupInfiniteCarousel({
+  carouselId: "servicesCarousel",
+  prevId: "servicesPrev",
+  nextId: "servicesNext",
+  cardSelector: ".service-card",
+  interval: 3500
+});
+
+setupInfiniteCarousel({
+  carouselId: "architectureCarousel",
+  prevId: "architecturePrev",
+  nextId: "architectureNext",
+  cardSelector: ".architecture-slide",
+  interval: 4200
+});
 
 /* ===========================
    LEAD CAPTURE DEMO BOT
@@ -443,11 +543,6 @@ function processBotStep() {
   if (step.type === "input") {
     addBotMessage(renderTemplate(step.prompt, leadData));
     botInput.disabled = false;
-        // Don't auto-focus when the page first loads.
-    // This prevents the browser from scrolling to the demo bot.
-    if (document.activeElement === botInput) {
-        botInput.focus();
-    }
     return;
   }
 
@@ -486,7 +581,6 @@ botForm?.addEventListener("submit", (event) => {
   if (validationError) {
     addBotMessage(validationError, "bot");
     botInput.value = "";
-    botInput.focus();
     return;
   }
 
@@ -507,71 +601,3 @@ botReset?.addEventListener("click", startBotDemo);
 if (botChatWindow && botForm && botInput) {
   startBotDemo();
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const servicesTrack = document.querySelector(".services-track");
-  const serviceCards = document.querySelectorAll(".service-card");
-  const nextBtn = document.querySelector(".services-next");
-  const prevBtn = document.querySelector(".services-prev");
-
-  if (!servicesTrack || serviceCards.length === 0) return;
-
-  let currentIndex = 0;
-  let autoRotate;
-
-  function updateServicesCarousel() {
-    const cardWidth = serviceCards[0].offsetWidth;
-    const gap = 24;
-    const moveAmount = (cardWidth + gap) * currentIndex;
-
-    servicesTrack.style.transform = `translateX(-${moveAmount}px)`;
-  }
-
-  function goToNextService() {
-    currentIndex++;
-
-    if (currentIndex >= serviceCards.length) {
-      currentIndex = 0;
-    }
-
-    updateServicesCarousel();
-  }
-
-  function goToPrevService() {
-    currentIndex--;
-
-    if (currentIndex < 0) {
-      currentIndex = serviceCards.length - 1;
-    }
-
-    updateServicesCarousel();
-  }
-
-  function startAutoRotate() {
-    autoRotate = setInterval(goToNextService, 3500);
-  }
-
-  function resetAutoRotate() {
-    clearInterval(autoRotate);
-    startAutoRotate();
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      goToNextService();
-      resetAutoRotate();
-    });
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      goToPrevService();
-      resetAutoRotate();
-    });
-  }
-
-  window.addEventListener("resize", updateServicesCarousel);
-
-  updateServicesCarousel();
-  startAutoRotate();
-});

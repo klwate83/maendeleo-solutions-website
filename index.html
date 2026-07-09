@@ -16,7 +16,13 @@
     <nav class="navbar">
       <a href="index.html" class="logo">Maendeleo<span>Solutions</span></a>
 
-      <div class="nav-links">
+      <button class="nav-toggle" id="mobileNavToggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" id="primaryNav">
         <a href="index.html" class="active">Home</a>
         <a href="projects.html">Projects</a>
         <a href="#services">Services</a>
@@ -353,86 +359,6 @@
   </footer>
 
   <script src="./script.js"></script>
-
-  <!-- Featured Services Auto-Rotation -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const servicesCarousel = document.getElementById("servicesCarousel");
-      const servicesPrev = document.getElementById("servicesPrev");
-      const servicesNext = document.getElementById("servicesNext");
-
-      if (!servicesCarousel) return;
-
-      const getScrollAmount = () => {
-        const firstCard = servicesCarousel.querySelector(".service-card");
-
-        if (!firstCard) return 370;
-
-        const carouselStyles = window.getComputedStyle(servicesCarousel);
-        const gap = parseInt(carouselStyles.columnGap || carouselStyles.gap || "24", 10);
-
-        return firstCard.offsetWidth + gap;
-      };
-
-      const goToNextService = () => {
-        const maxScroll = servicesCarousel.scrollWidth - servicesCarousel.clientWidth;
-        const scrollAmount = getScrollAmount();
-
-        if (servicesCarousel.scrollLeft >= maxScroll - 10) {
-          servicesCarousel.scrollTo({
-            left: 0,
-            behavior: "smooth"
-          });
-        } else {
-          servicesCarousel.scrollBy({
-            left: scrollAmount,
-            behavior: "smooth"
-          });
-        }
-      };
-
-      const goToPreviousService = () => {
-        const scrollAmount = getScrollAmount();
-
-        if (servicesCarousel.scrollLeft <= 10) {
-          servicesCarousel.scrollTo({
-            left: servicesCarousel.scrollWidth,
-            behavior: "smooth"
-          });
-        } else {
-          servicesCarousel.scrollBy({
-            left: -scrollAmount,
-            behavior: "smooth"
-          });
-        }
-      };
-
-      let servicesAutoRotate = setInterval(goToNextService, 3500);
-
-      const resetServicesAutoRotate = () => {
-        clearInterval(servicesAutoRotate);
-        servicesAutoRotate = setInterval(goToNextService, 3500);
-      };
-
-      servicesNext?.addEventListener("click", () => {
-        goToNextService();
-        resetServicesAutoRotate();
-      });
-
-      servicesPrev?.addEventListener("click", () => {
-        goToPreviousService();
-        resetServicesAutoRotate();
-      });
-
-      servicesCarousel.addEventListener("mouseenter", () => {
-        clearInterval(servicesAutoRotate);
-      });
-
-      servicesCarousel.addEventListener("mouseleave", () => {
-        resetServicesAutoRotate();
-      });
-    });
-  </script>
 
 </body>
 </html>
