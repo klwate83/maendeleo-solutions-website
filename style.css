@@ -780,6 +780,50 @@ body {
 }
 
 /* ===========================
+   BOT RESTART BUTTON
+=========================== */
+
+.bot-reset {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 4px 20px 20px;
+  padding: 14px 22px;
+
+  background: var(--black) !important;
+  color: var(--white) !important;
+  border: 1px solid var(--black) !important;
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.bot-reset:hover {
+  background: #000 !important;
+  color: var(--white) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+.bot-reset:active {
+  transform: translateY(0);
+}
+
+.bot-reset:focus-visible {
+  outline: 3px solid rgba(17, 17, 17, 0.25);
+  outline-offset: 3px;
+}
+
+/* ===========================
    LEAD CAPTURE DEMO BOT
 =========================== */
 
@@ -1238,15 +1282,36 @@ body {
 
 @media (max-width: 768px) {
   .hero-river-bg {
-    opacity: 0.45;
+    opacity: 0.9;
   }
 
   .river-svg {
-    min-height: 420px;
+    min-height: 460px;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.45));
   }
 
   .river-path {
-    stroke-width: 0.9;
+    stroke-width: 1.5;
+  }
+
+  .path-1,
+  .path-7 {
+    opacity: 0.42;
+  }
+
+  .path-2,
+  .path-6 {
+    opacity: 0.55;
+  }
+
+  .path-3,
+  .path-5 {
+    opacity: 0.72;
+  }
+
+  .path-4 {
+    opacity: 0.95;
+    stroke-width: 1.8;
   }
 }
 
@@ -1399,5 +1464,173 @@ body {
 
   .projects-hero {
     padding: 110px 5% 95px;
+  }
+}
+
+/* ===========================
+   ABOUT + FOUNDER
+=========================== */
+
+.about-section {
+  display: grid;
+  gap: 65px;
+}
+
+.about-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: start;
+}
+
+.about-intro h2 {
+  margin-bottom: 0;
+}
+
+.about-copy {
+  display: grid;
+  gap: 20px;
+}
+
+.about-copy p {
+  font-size: 1.02rem;
+  line-height: 1.85;
+}
+
+.founder-card {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 34px;
+  align-items: start;
+
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 42px;
+
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.07);
+}
+
+.founder-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--black);
+  color: var(--white);
+
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+
+  border: 4px solid var(--light-grey);
+}
+
+.founder-kicker {
+  margin-bottom: 6px;
+
+  color: var(--mid-grey);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.founder-content h3 {
+  margin-bottom: 4px;
+  font-size: 2rem;
+}
+
+.founder-role {
+  margin-bottom: 22px;
+
+  color: var(--mid-grey);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.founder-bio {
+  max-width: 900px;
+  margin-bottom: 16px;
+
+  color: var(--dark-grey);
+  line-height: 1.85;
+}
+
+.founder-strengths {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin: 26px 0 30px;
+}
+
+.founder-strengths span {
+  padding: 8px 14px;
+
+  background: var(--light-grey);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  color: var(--black);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.founder-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.founder-btn {
+  display: inline-block;
+  padding: 13px 24px;
+
+  background: var(--black);
+  color: var(--white);
+
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+
+  transition: 0.25s ease;
+}
+
+.founder-btn:hover {
+  transform: translateY(-2px);
+  background: #000;
+}
+
+.founder-link {
+  color: var(--black);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .about-intro {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .founder-card {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+
+  .founder-avatar {
+    width: 90px;
+    height: 90px;
+    font-size: 1.4rem;
+  }
+
+  .founder-content h3 {
+    font-size: 1.7rem;
   }
 }

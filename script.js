@@ -35,6 +35,62 @@ function renderTemplate(text, dataSource = {}) {
 }
 
 /* ===========================
+   EMAILJS CONFIGURATION
+=========================== */
+
+const EMAILJS_SERVICE_ID = "service_jifgpoj";
+const EMAILJS_TEMPLATE_ID = "template_7gk3d49";
+const EMAILJS_PUBLIC_KEY = "37o18MU5-ou0Vy2FD";
+
+if (typeof emailjs !== "undefined") {
+  emailjs.init({
+    publicKey: EMAILJS_PUBLIC_KEY
+  });
+}
+
+let maendeleoEnquirySending = false;
+let maendeleoEnquirySent = false;
+
+async function sendMaendeleoEnquiry() {
+  if (maendeleoEnquirySending || maendeleoEnquirySent) {
+    return false;
+  }
+
+  if (typeof emailjs === "undefined") {
+    throw new Error("EmailJS library did not load.");
+  }
+
+  maendeleoEnquirySending = true;
+
+  const templateParams = {
+    from_name: maendeleoLeadData.name || "",
+    from_email: maendeleoLeadData.email || "",
+    phone: maendeleoLeadData.phone || "",
+    project_type: maendeleoLeadData.projectType || "",
+    message: maendeleoLeadData.message || "",
+    submitted_at:
+      maendeleoLeadData.submittedAt ||
+      new Date().toLocaleString("en-ZA"),
+    source:
+      maendeleoLeadData.source ||
+      "Maendeleo Solutions Website Assistant"
+  };
+
+  try {
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      templateParams
+    );
+
+    maendeleoEnquirySent = true;
+    return true;
+  } finally {
+    maendeleoEnquirySending = false;
+  }
+}
+
+/* ===========================
    MAENDELEO ASSIST BOT
 =========================== */
 
@@ -82,12 +138,11 @@ const maendeleoLeadFlow = [
     validate: "required"
   },
   {
-    type: "message",
-    text: "Thanks {{name}}. I captured your enquiry for: {{projectType}}. Maendeleo Solutions can follow up with you on {{email}} or {{phone}}."
+    type: "submit"
   },
   {
     type: "end",
-    text: "Your enquiry has been captured. Please email hello@maendeleosolutions.co.za if you would like to send more details."
+    text: "Thank you for contacting Maendeleo Solutions."
   }
 ];
 
@@ -114,26 +169,71 @@ function setMaendeleoInputState(enabled, placeholder = "Type your response...") 
   if (enabled) maendeleoBotInput.focus();
 }
 
-function processMaendeleoStep() {
+async function processMaendeleoStep() {
   const step = maendeleoLeadFlow[maendeleoFlowIndex];
+
   if (!step) return;
 
   if (step.type === "message") {
-    addMaendeleoMessage(renderTemplate(step.text, maendeleoLeadData));
+    addMaendeleoMessage(
+      renderTemplate(step.text, maendeleoLeadData)
+    );
+
     maendeleoFlowIndex++;
+
     setTimeout(processMaendeleoStep, 650);
     return;
   }
 
   if (step.type === "input") {
-    addMaendeleoMessage(renderTemplate(step.prompt, maendeleoLeadData));
+    addMaendeleoMessage(
+      renderTemplate(step.prompt, maendeleoLeadData)
+    );
+
     setMaendeleoInputState(true);
+    return;
+  }
+
+  if (step.type === "submit") {
+    setMaendeleoInputState(
+      false,
+      "Sending your enquiry..."
+    );
+
+    addMaendeleoMessage(
+      "Sending your enquiry..."
+    );
+
+    try {
+      await sendMaendeleoEnquiry();
+
+      addMaendeleoMessage(
+        `Your enquiry has been sent successfully, ${maendeleoLeadData.name}. Maendeleo Solutions will contact you using ${maendeleoLeadData.email} or ${maendeleoLeadData.phone}.`
+      );
+    } catch (error) {
+      console.error(
+        "Maendeleo Assist EmailJS error:",
+        error
+      );
+
+      addMaendeleoMessage(
+        "We could not send your enquiry right now. Please email hello@maendeleosolutions.co.za directly."
+      );
+    }
+
+    maendeleoFlowIndex++;
+
+    setTimeout(processMaendeleoStep, 650);
     return;
   }
 
   if (step.type === "end") {
     addMaendeleoMessage(step.text);
-    setMaendeleoInputState(false, "Conversation complete. Restart to send a new enquiry.");
+
+    setMaendeleoInputState(
+      false,
+      "Conversation complete. Restart to send a new enquiry."
+    );
   }
 }
 
@@ -141,6 +241,10 @@ function startMaendeleoBot() {
   if (!maendeleoBotWindow || !maendeleoBotInput) return;
 
   maendeleoBotWindow.innerHTML = "";
+
+  maendeleoEnquirySending = false;
+  maendeleoEnquirySent = false;
+
   maendeleoLeadData = {
     source: "Maendeleo Solutions Website Assistant",
     submittedAt: new Date().toLocaleString("en-ZA")
