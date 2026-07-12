@@ -19,7 +19,7 @@ function validateLeadInput(value, validationType) {
     const normalizedPhone = cleanValue.replace(/\s+/g, "");
     const phonePattern = /^(\+27|27|0)[6-8][0-9]{8}$/;
     if (!phonePattern.test(normalizedPhone)) {
-      return "Please enter a valid South African mobile number, for example 0615426276 or +27615426276.";
+      return "Please enter a valid South African mobile number, for example 0833214576 or +27833214576.";
     }
   }
 
@@ -121,7 +121,7 @@ const maendeleoLeadFlow = [
   },
   {
     type: "input",
-    prompt: "Please share your phone number. South African format is accepted, e.g. 0615426276 or +27615426276.",
+    prompt: "Please share your phone number. South African format is accepted, e.g. 0833214576 or +27833214576.",
     variable: "phone",
     validate: "phone"
   },
@@ -586,7 +586,7 @@ const leadFlow = [
   },
   {
     type: "input",
-    prompt: "Please share your phone number. South African format is accepted, e.g. 0615426276 or +27615426276.",
+    prompt: "Please share your phone number. South African format is accepted, e.g. 0833214576 or +27833214576.",
     variable: "phone",
     validate: "phone",
     stepIndex: 3
