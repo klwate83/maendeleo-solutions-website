@@ -426,6 +426,7 @@ function setupInfiniteCarousel({ carouselId, prevId, nextId, cardSelector, inter
   const carousel = document.getElementById(carouselId);
   const prevButton = document.getElementById(prevId);
   const nextButton = document.getElementById(nextId);
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (!carousel || carousel.querySelectorAll(cardSelector).length < 2) return;
 
@@ -451,7 +452,7 @@ function setupInfiniteCarousel({ carouselId, prevId, nextId, cardSelector, inter
 
     carousel.scrollBy({
       left: amount,
-      behavior: "smooth"
+      behavior: reducedMotion.matches ? "auto" : "smooth"
     });
 
     window.setTimeout(() => {
@@ -481,7 +482,7 @@ function setupInfiniteCarousel({ carouselId, prevId, nextId, cardSelector, inter
 
     carousel.scrollBy({
       left: -amount,
-      behavior: "smooth"
+      behavior: reducedMotion.matches ? "auto" : "smooth"
     });
 
     window.setTimeout(() => {
@@ -490,7 +491,7 @@ function setupInfiniteCarousel({ carouselId, prevId, nextId, cardSelector, inter
   }
 
   function startAutoRotate() {
-    if (timer || !isVisible) return;
+    if (timer || !isVisible || reducedMotion.matches) return;
     timer = window.setInterval(moveNext, interval);
   }
 
@@ -517,6 +518,10 @@ function setupInfiniteCarousel({ carouselId, prevId, nextId, cardSelector, inter
 
   carousel.addEventListener("mouseenter", stopAutoRotate);
   carousel.addEventListener("mouseleave", startAutoRotate);
+  reducedMotion.addEventListener?.("change", () => {
+    stopAutoRotate();
+    startAutoRotate();
+  });
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
