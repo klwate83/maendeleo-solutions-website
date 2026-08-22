@@ -1870,6 +1870,459 @@ body {
   font-style: italic;
 }
 
+/* BACK2CLEAR TECHNICAL ARCHITECTURE */
+
+.architecture-shell {
+  --arch-bg: #050a12;
+  --arch-panel: #09111d;
+  --arch-line: #314156;
+  --arch-text: #f4f8fc;
+  --arch-muted: #a9bad0;
+  --arch-blue: #52a9ff;
+  --arch-green: #7bdc43;
+  --arch-purple: #ca82ff;
+  --arch-cyan: #35d5dc;
+  --arch-orange: #ff9b28;
+  overflow: hidden;
+  border-color: #26374c;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(31, 91, 145, 0.18), transparent 42%),
+    var(--arch-bg);
+  color: var(--arch-text);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+}
+
+.architecture-heading {
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+.architecture-shell .architecture-heading h3 {
+  margin-bottom: 2px;
+  color: var(--arch-text);
+  font-size: clamp(1.75rem, 4vw, 2.8rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.architecture-heading p,
+.architecture-shell .diagram-caption {
+  color: #70c9f6;
+}
+
+.architecture-principles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 22px;
+  border: 1px solid var(--arch-line);
+  border-radius: 14px;
+  background: rgba(8, 16, 28, 0.86);
+}
+
+.architecture-principles > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 10px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.architecture-principles > div + div {
+  border-left: 1px solid var(--arch-line);
+}
+
+.architecture-icon {
+  grid-row: 1 / 3;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--arch-blue);
+  font-size: 1.05rem;
+}
+
+.architecture-principles strong {
+  color: var(--arch-text);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.architecture-principles small {
+  color: var(--arch-muted);
+  line-height: 1.35;
+}
+
+.architecture-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 20px;
+}
+
+.architecture-system {
+  min-width: 0;
+}
+
+.architecture-shell .architecture-trunk {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.architecture-shell .architecture-node {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--arch-blue);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(14, 27, 43, 0.98), rgba(5, 12, 22, 0.98));
+  color: var(--arch-text);
+  box-shadow: inset 0 0 22px rgba(82, 169, 255, 0.04);
+}
+
+.architecture-shell .architecture-trunk .architecture-node {
+  display: flex;
+  min-height: 180px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 16px;
+  text-align: center;
+}
+
+.architecture-shell .architecture-trunk .architecture-node:not(:last-child)::after {
+  right: -28px;
+  color: #91bdf2;
+}
+
+.architecture-shell .architecture-node h4 {
+  color: var(--arch-text);
+  font-size: 0.98rem;
+}
+
+.architecture-shell .architecture-node p {
+  color: var(--arch-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.node-number {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  color: var(--arch-blue);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.node-symbol,
+.branch-symbol {
+  display: grid;
+  place-items: center;
+  color: var(--arch-blue);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.node-symbol {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 12px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.node-user {
+  border-color: var(--arch-purple) !important;
+}
+
+.node-user .node-symbol,
+.node-user .node-number {
+  color: var(--arch-purple);
+}
+
+.node-services {
+  border-color: var(--arch-green) !important;
+}
+
+.node-services .node-symbol,
+.node-services .node-number {
+  color: var(--arch-green);
+}
+
+.architecture-connector {
+  display: flex;
+  height: 42px;
+  justify-content: center;
+}
+
+.architecture-connector span {
+  width: 1px;
+  height: 100%;
+  border-left: 1px dashed var(--arch-cyan);
+}
+
+.architecture-shell .architecture-branches {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.architecture-shell .architecture-branches .architecture-node {
+  padding: 18px;
+}
+
+.architecture-shell .architecture-branches .architecture-node::before {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  height: 20px;
+  border-left: 1px dashed var(--arch-cyan);
+}
+
+.architecture-shell .architecture-node ul {
+  margin-top: 10px;
+  padding-left: 0;
+  color: var(--arch-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  list-style: none;
+}
+
+.architecture-shell .architecture-node li {
+  position: relative;
+  padding-left: 15px;
+}
+
+.architecture-shell .architecture-node li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: currentColor;
+}
+
+.architecture-shell .privacy-boundary {
+  border: 1px solid var(--arch-green);
+  background: linear-gradient(145deg, rgba(34, 75, 35, 0.24), rgba(5, 12, 22, 0.98));
+}
+
+.architecture-shell .privacy-boundary .branch-symbol,
+.architecture-shell .privacy-boundary .boundary-label {
+  color: var(--arch-green);
+}
+
+.architecture-shell .branch-work {
+  border-color: var(--arch-purple);
+}
+
+.architecture-shell .branch-work .branch-symbol {
+  color: var(--arch-purple);
+}
+
+.architecture-shell .branch-engine {
+  border-color: var(--arch-cyan);
+}
+
+.architecture-shell .branch-engine .branch-symbol {
+  color: var(--arch-cyan);
+}
+
+.architecture-shell .branch-ads {
+  border-color: var(--arch-orange);
+}
+
+.architecture-shell .branch-ads .branch-symbol,
+.architecture-shell .branch-ads .boundary-label {
+  color: var(--arch-orange);
+}
+
+.architecture-shell .boundary-label {
+  color: var(--arch-blue);
+  font-size: 0.62rem;
+}
+
+.architecture-request {
+  padding: 20px 18px;
+  border: 1px solid var(--arch-line);
+  border-radius: 14px;
+  background: rgba(8, 16, 28, 0.92);
+}
+
+.architecture-request h4 {
+  margin-bottom: 18px;
+  color: #85c5ff;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.architecture-request ol {
+  display: grid;
+  gap: 0;
+  list-style: none;
+}
+
+.architecture-request li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: center;
+  min-height: 62px;
+  color: var(--arch-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.architecture-request li:not(:last-child)::after {
+  content: "↓";
+  position: absolute;
+  bottom: -3px;
+  left: 10px;
+  color: #79aef2;
+}
+
+.architecture-request li span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid #79aef2;
+  border-radius: 50%;
+  color: var(--arch-text);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.architecture-stack {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 15px 18px;
+  border: 1px solid var(--arch-line);
+  border-radius: 14px;
+  background: rgba(8, 16, 28, 0.86);
+}
+
+.architecture-stack span {
+  margin-right: auto;
+  color: var(--arch-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.architecture-stack strong {
+  padding: 6px 10px;
+  border: 1px solid var(--arch-line);
+  border-radius: 8px;
+  color: var(--arch-text);
+  font-size: 0.7rem;
+}
+
+.architecture-shell .diagram-caption {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+@media (max-width: 1050px) {
+  .architecture-principles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .architecture-principles > div:nth-child(3) {
+    border-left: 0;
+    border-top: 1px solid var(--arch-line);
+  }
+
+  .architecture-principles > div:nth-child(4) {
+    border-top: 1px solid var(--arch-line);
+  }
+
+  .architecture-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-request ol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .architecture-request li {
+    min-height: 44px;
+  }
+
+  .architecture-request li:not(:last-child)::after {
+    content: "→";
+    top: 13px;
+    right: -8px;
+    bottom: auto;
+    left: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .architecture-shell .architecture-trunk,
+  .architecture-shell .architecture-branches {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .architecture-shell .architecture-trunk .architecture-node:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .architecture-shell .architecture-trunk .architecture-node:not(:last-child)::after {
+    display: none;
+  }
+
+  .architecture-shell .architecture-branches .architecture-node::before {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .architecture-shell {
+    margin-right: -2.5%;
+    margin-left: -2.5%;
+    padding: 20px 14px;
+    border-radius: 16px;
+  }
+
+  .architecture-principles,
+  .architecture-shell .architecture-trunk,
+  .architecture-shell .architecture-branches,
+  .architecture-request ol {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-principles > div + div,
+  .architecture-principles > div:nth-child(3),
+  .architecture-principles > div:nth-child(4) {
+    border-top: 1px solid var(--arch-line);
+    border-left: 0;
+  }
+
+  .architecture-shell .architecture-trunk .architecture-node:last-child {
+    grid-column: auto;
+  }
+
+  .architecture-request li:not(:last-child)::after {
+    content: "↓";
+    top: auto;
+    right: auto;
+    bottom: -8px;
+    left: 10px;
+  }
+
+  .architecture-stack span {
+    width: 100%;
+  }
+}
+
 .privacy-card {
   padding: 34px;
   border-radius: 22px;

@@ -101,22 +101,88 @@
         <figcaption id="journey-caption" class="diagram-caption">Back2Clear turns a private quit decision into visible, measurable progress without requiring an account or cloud profile.</figcaption>
       </figure>
 
-      <figure class="diagram-shell" aria-labelledby="architecture-title" aria-describedby="architecture-description architecture-caption">
-        <h3 id="architecture-title">Technical architecture</h3>
-        <p id="architecture-description" class="diagram-description">The user moves through a Jetpack Compose interface into local application services, which connect to four separated service areas described below.</p>
-        <div class="architecture-flow">
-          <div class="architecture-trunk">
-            <div class="architecture-node">User</div>
-            <div class="architecture-node">Jetpack Compose interface</div>
-            <div class="architecture-node">Local application services</div>
-          </div>
-          <div class="architecture-branches">
-            <article class="architecture-node privacy-boundary"><span class="boundary-label">On-device privacy boundary</span><h4>Android DataStore</h4><ul><li>Profile</li><li>Quit date and time</li><li>Savings settings</li><li>Reward goal</li><li>Theme choice</li><li>Previous starts</li></ul></article>
-            <article class="architecture-node"><h4>WorkManager</h4><ul><li>Daily encouragement</li><li>Weekly reminders</li><li>Milestone notifications</li><li>No advertising content</li></ul></article>
-            <article class="architecture-node"><h4>Milestone and savings engine</h4><ul><li>Vape-free duration</li><li>Savings calculations</li><li>Health-information rotation</li></ul></article>
-            <article class="architecture-node"><h4>Consent and advertising boundary</h4><ul><li>Google User Messaging Platform</li><li>Google Mobile Ads</li><li>Home and Journey banners only</li><li>No quitting-profile data supplied for ad targeting</li></ul></article>
-          </div>
+      <figure class="diagram-shell architecture-shell" aria-labelledby="architecture-title" aria-describedby="architecture-description architecture-caption">
+        <header class="architecture-heading">
+          <h3 id="architecture-title">Back2Clear technical architecture</h3>
+          <p id="architecture-description">Private by design. Local-first. Calm, reliable progress tracking.</p>
+        </header>
+
+        <div class="architecture-principles" aria-label="Architecture principles">
+          <div><span class="architecture-icon" aria-hidden="true">⌂</span><strong>Local First</strong><small>Quitting profile stays on the device</small></div>
+          <div><span class="architecture-icon" aria-hidden="true">◇</span><strong>Privacy by Design</strong><small>No account or cloud profile</small></div>
+          <div><span class="architecture-icon" aria-hidden="true">↻</span><strong>Reliable Support</strong><small>Scheduled local encouragement</small></div>
+          <div><span class="architecture-icon" aria-hidden="true">✓</span><strong>Consent Controlled</strong><small>Ads separated from progress data</small></div>
         </div>
+
+        <div class="architecture-layout">
+          <div class="architecture-system">
+            <div class="architecture-trunk" aria-label="Primary application flow">
+              <article class="architecture-node node-user">
+                <span class="node-number">1</span>
+                <span class="node-symbol" aria-hidden="true">●</span>
+                <h4>User</h4>
+                <p>Private setup, progress and preferences</p>
+              </article>
+              <article class="architecture-node node-interface">
+                <span class="node-number">2</span>
+                <span class="node-symbol" aria-hidden="true">▣</span>
+                <h4>Jetpack Compose interface</h4>
+                <p>Home, Journey, Settings and consent screens</p>
+              </article>
+              <article class="architecture-node node-services">
+                <span class="node-number">3</span>
+                <span class="node-symbol" aria-hidden="true">⚙</span>
+                <h4>Local application services</h4>
+                <p>Coordinates storage, calculations and reminders</p>
+              </article>
+            </div>
+
+            <div class="architecture-connector" aria-hidden="true"><span></span></div>
+
+            <div class="architecture-branches" aria-label="Local application service branches">
+              <article class="architecture-node privacy-boundary">
+                <span class="boundary-label">On-device privacy boundary</span>
+                <span class="branch-symbol" aria-hidden="true">▤</span>
+                <h4>Android DataStore</h4>
+                <ul><li>Profile and previous starts</li><li>Quit date and time</li><li>Savings and reward settings</li><li>Theme choice</li></ul>
+              </article>
+              <article class="architecture-node branch-work">
+                <span class="branch-symbol" aria-hidden="true">◷</span>
+                <h4>WorkManager</h4>
+                <ul><li>Daily encouragement</li><li>Weekly reminders</li><li>Milestone notifications</li><li>No advertising content</li></ul>
+              </article>
+              <article class="architecture-node branch-engine">
+                <span class="branch-symbol" aria-hidden="true">↗</span>
+                <h4>Milestone &amp; savings engine</h4>
+                <ul><li>Vape-free duration</li><li>Savings calculations</li><li>Health-information rotation</li></ul>
+              </article>
+              <article class="architecture-node branch-ads">
+                <span class="boundary-label">Separate advertising boundary</span>
+                <span class="branch-symbol" aria-hidden="true">◎</span>
+                <h4>Consent &amp; advertising</h4>
+                <ul><li>Google UMP and Mobile Ads</li><li>Home and Journey banners only</li><li>No quitting-profile data for targeting</li></ul>
+              </article>
+            </div>
+          </div>
+
+          <aside class="architecture-request" aria-label="Back2Clear request flow">
+            <h4>Application flow</h4>
+            <ol>
+              <li><span aria-hidden="true">1</span>User opens Back2Clear</li>
+              <li><span aria-hidden="true">2</span>Compose renders local data</li>
+              <li><span aria-hidden="true">3</span>Services calculate progress</li>
+              <li><span aria-hidden="true">4</span>DataStore saves privately</li>
+              <li><span aria-hidden="true">5</span>WorkManager schedules support</li>
+              <li><span aria-hidden="true">6</span>Consent gates eligible ads</li>
+            </ol>
+          </aside>
+        </div>
+
+        <div class="architecture-stack" aria-label="Technology stack">
+          <span>Technology stack</span>
+          <strong>Kotlin</strong><strong>Jetpack Compose</strong><strong>DataStore</strong><strong>WorkManager</strong><strong>Google UMP</strong><strong>Mobile Ads</strong>
+        </div>
+
         <figcaption id="architecture-caption" class="diagram-caption">The quitting profile stays on the device. Advertising consent and delivery are separated from personal progress data.</figcaption>
       </figure>
     </section>
