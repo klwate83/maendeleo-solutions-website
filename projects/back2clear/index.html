@@ -46,7 +46,7 @@
         <h2 id="overview-title">Private progress, made visible</h2>
       </div>
       <div class="detail-copy">
-        <p>Back2Clear is a native Android wellness application designed to support adults who want to stop vaping. Users can choose an exact quit date and time, monitor their vape-free duration, calculate money saved, set a personal reward goal, review carefully worded nicotine-withdrawal milestones and receive optional daily encouragement.</p>
+        <p>Back2Clear is a native Android wellness application designed to support adults who want to stop vaping. Users can choose an exact quit date and time, monitor their vape-free duration, calculate money saved, set a personal reward goal, review carefully worded nicotine-withdrawal milestones, keep private daily reflections and receive optional encouragement.</p>
         <p>The experience avoids shame-based language and does not present smoking-specific recovery timelines as proven vaping outcomes. User profile and progress data remain locally stored on the device.</p>
         <p><strong>Designed and developed by Maendeleo Solutions.</strong></p>
       </div>
@@ -76,11 +76,41 @@
         <div class="capability-item">Daily, weekly and monthly milestones</div>
         <div class="capability-item">Evidence-conscious health information</div>
         <div class="capability-item">Optional daily encouragement</div>
+        <div class="capability-item">Private, timestamped daily journal</div>
+        <div class="capability-item">Shareable milestone badges</div>
         <div class="capability-item">Four serene interface themes</div>
-        <div class="capability-item">Local data deletion</div>
-        <div class="capability-item">Consent-controlled advertising</div>
+        <div class="capability-item">Individual journal and full local-data deletion</div>
+        <div class="capability-item">Free version with consent-controlled banners</div>
+        <div class="capability-item">One-time Premium upgrade with no ads</div>
         <div class="capability-item">No login or cloud profile</div>
       </div>
+    </section>
+
+    <section class="section" aria-labelledby="screenshots-title">
+      <p class="section-label">App Preview</p>
+      <h2 id="screenshots-title">A calmer way to see your progress</h2>
+      <p class="diagram-description">Explore the private setup, quit planning, progress, milestone, journal and personalisation experience.</p>
+      <div class="app-screenshot-grid">
+        <figure><img src="../../assets/images/back2clear/01-plan-that-fits-your-life.png" alt="Back2Clear setup screen for age, lifestyle, vaping spend and currency" loading="lazy" /><figcaption>A plan that fits your life</figcaption></figure>
+        <figure><img src="../../assets/images/back2clear/02-choose-quit-date-and-time.png" alt="Back2Clear screen for choosing an exact quit date and time" loading="lazy" /><figcaption>Choose your quit date and time</figcaption></figure>
+        <figure><img src="../../assets/images/back2clear/03-progress-and-savings.png" alt="Back2Clear home screen showing vape-free progress and money saved" loading="lazy" /><figcaption>See progress and savings</figcaption></figure>
+        <figure><img src="../../assets/images/back2clear/04-evidence-informed-milestones.png" alt="Back2Clear journey screen with nicotine withdrawal milestones" loading="lazy" /><figcaption>Follow evidence-informed milestones</figcaption></figure>
+        <figure><img src="../../assets/images/back2clear/05-private-daily-reflection.png" alt="Back2Clear private daily reflection journal" loading="lazy" /><figcaption>Reflect privately each day</figcaption></figure>
+        <figure><img src="../../assets/images/back2clear/06-personalise-back2clear.png" alt="Back2Clear appearance themes and reminder settings" loading="lazy" /><figcaption>Personalise your experience</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="section detail-split" aria-labelledby="versions-title">
+      <article class="detail-copy">
+        <p class="section-label">Free</p>
+        <h2 id="versions-title">Start with the essentials</h2>
+        <p>Track vape-free time and savings, follow milestones and use the core quitting tools. With consent, subtle banner advertisements remain anchored above the navigation on the Home and Journey screens.</p>
+      </article>
+      <article class="detail-copy">
+        <p class="section-label">Premium</p>
+        <h2>A permanent upgrade</h2>
+        <p>A one-time Google Play purchase removes advertisements and unlocks all themes, private journaling, milestone badge sharing and audible milestone notifications. No subscription is required.</p>
+      </article>
     </section>
 
     <section class="section" aria-labelledby="diagrams-title">
@@ -95,8 +125,8 @@
           <article class="journey-step"><span class="diagram-number">02</span><h4>Set quit moment</h4><ul><li>Quit date</li><li>Exact quit time</li></ul></article>
           <article class="journey-step"><span class="diagram-number">03</span><h4>Track progress</h4><ul><li>Vape-free duration</li><li>Money saved</li><li>Savings projections</li><li>Reward goal</li></ul></article>
           <article class="journey-step"><span class="diagram-number">04</span><h4>Follow the journey</h4><ul><li>Hourly, daily, weekly and monthly milestones</li><li>Evidence-conscious health information</li></ul></article>
-          <article class="journey-step"><span class="diagram-number">05</span><h4>Stay encouraged</h4><ul><li>Optional daily notifications</li><li>No advertisements in notifications</li></ul></article>
-          <article class="journey-step"><span class="diagram-number">06</span><h4>Remain in control</h4><ul><li>Appearance themes</li><li>Privacy choices</li><li>Delete local data</li></ul></article>
+          <article class="journey-step"><span class="diagram-number">05</span><h4>Reflect and share</h4><ul><li>Private timestamped journal</li><li>WhatsApp milestone badge sharing</li></ul></article>
+          <article class="journey-step"><span class="diagram-number">06</span><h4>Remain in control</h4><ul><li>Appearance and reminders</li><li>Privacy and Premium choices</li><li>Delete entries or all local data</li></ul></article>
         </div>
         <figcaption id="journey-caption" class="diagram-caption">Back2Clear turns a private quit decision into visible, measurable progress without requiring an account or cloud profile.</figcaption>
       </figure>
@@ -127,7 +157,7 @@
                 <span class="node-number">2</span>
                 <span class="node-symbol" aria-hidden="true">▣</span>
                 <h4>Jetpack Compose interface</h4>
-                <p>Home, Journey, Settings and consent screens</p>
+                <p>Home, Journey, Journal, Settings and consent screens</p>
               </article>
               <article class="architecture-node node-services">
                 <span class="node-number">3</span>
@@ -144,12 +174,12 @@
                 <span class="boundary-label">On-device privacy boundary</span>
                 <span class="branch-symbol" aria-hidden="true">▤</span>
                 <h4>Android DataStore</h4>
-                <ul><li>Profile and previous starts</li><li>Quit date and time</li><li>Savings and reward settings</li><li>Theme choice</li></ul>
+                <ul><li>Profile and previous starts</li><li>Quit date and time</li><li>Savings and reward settings</li><li>Timestamped journal entries</li><li>Theme and Premium entitlement</li></ul>
               </article>
               <article class="architecture-node branch-work">
                 <span class="branch-symbol" aria-hidden="true">◷</span>
                 <h4>WorkManager</h4>
-                <ul><li>Daily encouragement</li><li>Weekly reminders</li><li>Milestone notifications</li><li>No advertising content</li></ul>
+                <ul><li>Daily encouragement</li><li>Weekly reminders</li><li>Premium milestone sounds</li><li>No advertising content</li></ul>
               </article>
               <article class="architecture-node branch-engine">
                 <span class="branch-symbol" aria-hidden="true">↗</span>
@@ -160,7 +190,7 @@
                 <span class="boundary-label">Separate advertising boundary</span>
                 <span class="branch-symbol" aria-hidden="true">◎</span>
                 <h4>Consent &amp; advertising</h4>
-                <ul><li>Google UMP and Mobile Ads</li><li>Home and Journey banners only</li><li>No quitting-profile data for targeting</li></ul>
+                <ul><li>Google UMP and Mobile Ads</li><li>Anchored Home and Journey banners only</li><li>Premium removes advertising</li><li>No quitting-profile data for targeting</li></ul>
               </article>
             </div>
           </div>
@@ -180,7 +210,7 @@
 
         <div class="architecture-stack" aria-label="Technology stack">
           <span>Technology stack</span>
-          <strong>Kotlin</strong><strong>Jetpack Compose</strong><strong>DataStore</strong><strong>WorkManager</strong><strong>Google UMP</strong><strong>Mobile Ads</strong>
+          <strong>Kotlin</strong><strong>Jetpack Compose</strong><strong>DataStore</strong><strong>WorkManager</strong><strong>Google Play Billing</strong><strong>Google UMP</strong><strong>Mobile Ads</strong>
         </div>
 
         <figcaption id="architecture-caption" class="diagram-caption">The quitting profile stays on the device. Advertising consent and delivery are separated from personal progress data.</figcaption>
@@ -204,7 +234,7 @@
     <section class="section" aria-labelledby="technology-title">
       <p class="section-label">Technology Stack</p>
       <h2 id="technology-title">Native Android foundations</h2>
-      <ul class="stack-list"><li>Kotlin</li><li>Jetpack Compose</li><li>Android DataStore</li><li>WorkManager</li><li>Google User Messaging Platform</li><li>Google Mobile Ads</li><li>Material Design 3</li></ul>
+      <ul class="stack-list"><li>Kotlin</li><li>Jetpack Compose</li><li>Android DataStore</li><li>WorkManager</li><li>Google Play Billing</li><li>Google User Messaging Platform</li><li>Google Mobile Ads</li><li>Material Design 3</li></ul>
     </section>
 
     <section class="section contact-section" aria-labelledby="status-title">
